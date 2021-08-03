@@ -13,6 +13,7 @@
         <engine name="cordova" version=">=9.0.0" />
     </engines>
 
+    <hook type="before_plugin_install" src="scripts/configurations/unzipAndCopyConfigurations.js" />
     <hook type="after_plugin_install" src="hooks/addGtmContainer.js" />
 
     <platform name="android">
