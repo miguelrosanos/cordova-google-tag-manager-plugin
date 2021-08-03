@@ -44,28 +44,43 @@ module.exports = function(context) {
   
   var zipIOS = new AdmZip(iosGTMZipFile);
   var zipAndroid = new AdmZip(androidGTMZipFile);
+  
+  var targetPathIOS = path.join(wwwPath, constantsIOS.IOS);
+  var targetPathAndroid = path.join(wwwPath, constantsAndroid.Android);
 
-  var targetPath = path.join(wwwPath, constantsIOS.IOS);
-
-  zipIOS.extractAllTo(targetPath, true);
-  zipAndroid.extractAllTo(targetPath, true);
-
-  var files = utils.getFilesFromPath(targetPath);
-  if (!files) {
+  zipIOS.extractAllTo(targetPathIOS, true);
+  zipAndroid.extractAllTo(targetPathAndroid, true);
+  
+  var filesIOS = utils.getFilesFromPath(targetPathIOS);
+  if (!filesIOS) {
+    utils.handleError("No directory found", defer);
+  }
+  
+  var filesAndroid = utils.getFilesFromPath(targetPathAndroid);
+  if (!filesAndroid) {
     utils.handleError("No directory found", defer);
   }
 
-  var fileName = files.find(function (name) {
+  var fileNameIOS = filesIOS.find(function (name) {
     return name.endsWith(platformConfig.firebaseFileExtension);
   });
-  if (!fileName) {
+  if (!fileNameIOS) {
     utils.handleError("No file found", defer);
   }
-
-  var sourceFilePath = path.join(targetPath, fileName);
+  
+  var fileNameAndroid = filesAndroid.find(function (name) {
+    return name.endsWith(platformConfig.firebaseFileExtension);
+  });
+  if (!fileNameAndroid) {
+    utils.handleError("No file found", defer);
+  }
+  
+  var sourceFilePathIOS = path.join(targetPathIOS, fileNameIOS);
+  var sourceFilePathAndroid = path.join(targetPathAndroid, fileNameAndroid);
   var destFilePath = path.join(context.opts.plugin.dir, fileName);
 
-  utils.copyFromSourceToDestPath(defer, sourceFilePath, destFilePath);
+  utils.copyFromSourceToDestPath(defer, sourceFilePathIOS, destFilePath);
+  utils.copyFromSourceToDestPath(defer, sourceFilePathAndroid, destFilePath);
   //console.log('Copied ' + sourceFilePath + ' to ' + destFilePath);
   if (cordovaAbove7) {
     var destPath = path.join(context.opts.projectRoot, "platforms", platform, "app");
@@ -80,11 +95,11 @@ module.exports = function(context) {
       
       //console.log(utils.getFilesFromPath(destPath));
     }
-    
 
     if (utils.checkIfFolderExists(destPath)) {
       var destFilePath = path.join(destPath, fileName);
-      utils.copyFromSourceToDestPath(defer, sourceFilePath, destFilePath);
+      utils.copyFromSourceToDestPath(defer, sourceFilePathIOS, destFilePath);
+	  utils.copyFromSourceToDestPath(defer, sourceFilePathAndroid, destFilePath);
       //console.log('Copied ' + sourceFilePath + ' to ' + destFilePath);
     }
   }
