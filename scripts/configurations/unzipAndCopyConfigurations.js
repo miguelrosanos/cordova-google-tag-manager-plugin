@@ -47,6 +47,7 @@ module.exports = function(context) {
   
   var targetPathIOS = path.join(wwwPath, constantsIOS.IOS);
   var targetPathAndroid = path.join(wwwPath, constantsAndroid.Android);
+  console.log('targetPathIOS ' + targetPathIOS);
 
   zipIOS.extractAllTo(targetPathIOS, true);
   zipAndroid.extractAllTo(targetPathAndroid, true);
