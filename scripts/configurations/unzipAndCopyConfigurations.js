@@ -6,11 +6,11 @@ var AdmZip = require("adm-zip");
 var utils = require("./utilities");
 
 var constantsIOS = {
-  googleServices: "google-services"
+  IOS: "iOS - GTM-PN82Q5R_v2.json"
 };
 
 var constantsAndroid = {
-  googleServices: "google-services"
+  Android: "Android - GTM-W8HGSTJ_v2.json"
 };
 
 module.exports = function(context) {
@@ -32,14 +32,14 @@ module.exports = function(context) {
   var wwwPath = utils.getResourcesFolderPath(context, platform, platformConfig);
   var sourceFolderPath = utils.getSourceFolderPath(context, wwwPath);
   
-  var googleServicesZipFile = utils.getZipFile(sourceFolderPath, constants.googleServices);
+  var googleServicesZipFile = utils.getZipFile(sourceFolderPath, constants.IOS);
   if (!googleServicesZipFile) {
-    utils.handleError("No zip file found containing google services configuration file", defer);
+    utils.handleError("No zip file found containing IOS configuration file", defer);
   }
   
   var zip = new AdmZip(googleServicesZipFile);
 
-  var targetPath = path.join(wwwPath, constants.googleServices);
+  var targetPath = path.join(wwwPath, constants.IOS);
   
   zip.extractAllTo(targetPath, true);
 
