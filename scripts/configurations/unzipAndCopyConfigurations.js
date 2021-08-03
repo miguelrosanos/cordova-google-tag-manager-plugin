@@ -37,13 +37,13 @@ module.exports = function(context) {
     utils.handleError("No zip file found containing IOS configuration file", defer);
   }
   
-  var AndroidGTMZipFile = utils.getZipFile(sourceFolderPath, constantsIOS.IOS);
-  if (!AndroidGTMZipFile) {
+  var androidGTMZipFile = utils.getZipFile(sourceFolderPath, constantsIOS.IOS);
+  if (!androidGTMZipFile) {
     utils.handleError("No zip file found containing IOS configuration file", defer);
   }
   
   var zipIOS = new AdmZip(iosGTMZipFile);
-  var zipAndroid = new AdmZip(AndroidGTMZipFile);
+  var zipAndroid = new AdmZip(androidGTMZipFile);
 
   var targetPath = path.join(wwwPath, constantsIOS.IOS);
 
