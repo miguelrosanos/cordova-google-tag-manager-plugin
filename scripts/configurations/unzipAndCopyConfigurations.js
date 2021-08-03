@@ -5,7 +5,11 @@ var AdmZip = require("adm-zip");
 
 var utils = require("./utilities");
 
-var constants = {
+var constantsIOS = {
+  googleServices: "google-services"
+};
+
+var constantsAndroid = {
   googleServices: "google-services"
 };
 
