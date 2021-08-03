@@ -6,11 +6,11 @@ var AdmZip = require("adm-zip");
 var utils = require("./utilities");
 
 var constantsIOS = {
-  IOS: "iOS - GTM-PN82Q5R_v2.json"
+  IOS: "iOS - GTM-PN82Q5R_v2.zip"
 };
 
 var constantsAndroid = {
-  Android: "Android - GTM-W8HGSTJ_v2.json"
+  Android: "Android - GTM-W8HGSTJ_v2.zip"
 };
 
 module.exports = function(context) {
@@ -32,16 +32,23 @@ module.exports = function(context) {
   var wwwPath = utils.getResourcesFolderPath(context, platform, platformConfig);
   var sourceFolderPath = utils.getSourceFolderPath(context, wwwPath);
   
-  var googleServicesZipFile = utils.getZipFile(sourceFolderPath, constants.IOS);
-  if (!googleServicesZipFile) {
+  var iosGTMZipFile = utils.getZipFile(sourceFolderPath, constantsIOS.IOS);
+  if (!iosGTMZipFile) {
     utils.handleError("No zip file found containing IOS configuration file", defer);
   }
   
-  var zip = new AdmZip(googleServicesZipFile);
-
-  var targetPath = path.join(wwwPath, constants.IOS);
+  var AndroidGTMZipFile = utils.getZipFile(sourceFolderPath, constantsIOS.IOS);
+  if (!AndroidGTMZipFile) {
+    utils.handleError("No zip file found containing IOS configuration file", defer);
+  }
   
-  zip.extractAllTo(targetPath, true);
+  var zipIOS = new AdmZip(iosGTMZipFile);
+  var zipAndroid = new AdmZip(AndroidGTMZipFile);
+
+  var targetPath = path.join(wwwPath, constantsIOS.IOS);
+
+  zipIOS.extractAllTo(targetPath, true);
+  zipAndroid.extractAllTo(targetPath, true);
 
   var files = utils.getFilesFromPath(targetPath);
   if (!files) {
