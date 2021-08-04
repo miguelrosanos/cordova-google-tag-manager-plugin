@@ -14,10 +14,6 @@
     </engines>
 
     <hook type="after_plugin_install" src="hooks/addGtmContainer.js" />
-    
-    <plugin name="cordova-plugin-admob-free" spec="0.22.0">
-        <variable name="ADMOB_APP_ID" value="ca-app-pub-2387490687776151~80XXXXXXX9" />
-    </plugin>
 
     <platform name="android">
         <preference name="ANDROID_CONTAINER_LOCATION" />
